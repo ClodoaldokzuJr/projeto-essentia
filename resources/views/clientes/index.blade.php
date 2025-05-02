@@ -70,33 +70,38 @@
         text-decoration: none;
     }
 
-    .btn-outline-primary {
-        color: #0d6efd;
-        border: 1px solid #0d6efd;
-        background-color: white;
+    .btn-delete {
+        color: white !important;
+        background-color: #dc3545 !important;
+        border: none !important;
     }
 
-    .btn-outline-warning {
-        color: #ffc107;
-        border: 1px solid #ffc107;
-        background-color: white;
-    }
-
-    .btn-outline-danger {
-        color: #dc3545;
-        border: 1px solid #dc3545;
-        background-color: white;
+    .btn-delete:hover {
+        background-color: #bb2d3b !important;
+        opacity: 0.9;
     }
 
     .btn:hover {
         opacity: 0.85;
     }
-</style>
 
+    .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .top-bar .btn-success {
+        white-space: nowrap;
+    }
+</style>
 
 @section('content')
 <div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="top-bar">
         <h2 class="mb-0">Lista de Clientes</h2>
         <a href="{{ route('clientes.create') }}" class="btn btn-success">+ Novo Cliente</a>
     </div>
@@ -138,13 +143,13 @@
                             <td>{{ $cliente->email }}</td>
                             <td>{{ $cliente->telefone }}</td>
                             <td class="text-center">
-                                <div class="d-flex justify-content-center gap-2 flex-wrap">
+                                <div class="btn-actions">
                                     <a href="{{ route('clientes.show', $cliente) }}" class="btn btn-sm btn-outline-primary">Ver</a>
                                     <a href="{{ route('clientes.edit', $cliente) }}" class="btn btn-sm btn-outline-warning">Editar</a>
                                     <form action="{{ route('clientes.destroy', $cliente) }}" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir este cliente?');">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-sm btn-outline-danger">Excluir</button>
+                                        <button class="btn btn-sm btn-delete">Excluir</button>
                                     </form>
                                 </div>
                             </td>

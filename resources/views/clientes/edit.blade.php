@@ -1,54 +1,97 @@
 @extends('layouts.app')
 
-@section('content')
-<div class="container mx-auto px-4 py-6">
-    <h2 class="text-2xl font-bold mb-4">Editar Cliente</h2>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f6f8;
+        padding: 20px;
+    }
 
-    @if ($errors->any())
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-            <ul class="list-disc pl-5">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+    .container {
+        max-width: 960px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    .cliente-foto {
+        width: 280px;
+        height: 280px;
+        object-fit: cover;
+        border-radius: 12px;
+        border: 3px solid #ccc;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+        text-align: left;
+    }
+
+    .form-label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+    }
+
+    .btn-primary {
+        background-color: #0d6efd;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: #0b5ed7;
+    }
+</style>
+
+@section('content')
+<div class="container">
+    <h2 class="text-center mb-4">Editar Cliente</h2>
+
+    @if($cliente->foto)
+        <div class="text-center">
+            <img src="{{ $cliente->foto_url }}" alt="Foto atual de {{ $cliente->nome }}" class="cliente-foto">
         </div>
     @endif
 
-    <form action="{{ route('clientes.update', $cliente->id) }}" method="POST" enctype="multipart/form-data" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+    <form action="{{ route('clientes.update', $cliente) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
-        <div class="mb-4">
-            <label for="nome" class="block text-gray-700 text-sm font-bold mb-2">Nome</label>
-            <input type="text" name="nome" id="nome" value="{{ old('nome', $cliente->nome) }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+        <div class="form-group">
+            <label class="form-label">Nome</label>
+            <input type="text" name="nome" class="form-control" value="{{ old('nome', $cliente->nome) }}" required>
         </div>
 
-        <div class="mb-4">
-            <label for="email" class="block text-gray-700 text-sm font-bold mb-2">E-mail</label>
-            <input type="email" name="email" id="email" value="{{ old('email', $cliente->email) }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+        <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" name="email" class="form-control" value="{{ old('email', $cliente->email) }}" required>
         </div>
 
-        <div class="mb-4">
-            <label for="telefone" class="block text-gray-700 text-sm font-bold mb-2">Telefone</label>
-            <input type="text" name="telefone" id="telefone" value="{{ old('telefone', $cliente->telefone) }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+        <div class="form-group">
+            <label class="form-label">Telefone</label>
+            <input type="text" name="telefone" class="form-control" value="{{ old('telefone', $cliente->telefone) }}" required>
         </div>
 
-        <div class="mb-4">
-            <label for="foto" class="block text-gray-700 text-sm font-bold mb-2">Foto</label>
-            <input type="file" name="foto" id="foto" class="block w-full text-sm text-gray-700">
-            @if ($cliente->foto)
-                <div class="mt-2">
-                    <p class="text-gray-600 text-sm">Foto atual:</p>
-                    <img src="{{ asset('storage/' . $cliente->foto) }}" alt="Foto atual" class="w-24 h-24 object-cover rounded-full mt-1">
-                </div>
-            @endif
+        <div class="form-group">
+            <label class="form-label">Nova Foto (opcional)</label>
+            <input type="file" name="foto" class="form-control">
         </div>
 
-        <div class="flex items-center justify-between">
-            <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">
-                Atualizar
-            </button>
-            <a href="{{ route('clientes.index') }}" class="text-gray-500 hover:underline">Cancelar</a>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
         </div>
     </form>
 </div>

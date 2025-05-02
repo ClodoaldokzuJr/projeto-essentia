@@ -1,38 +1,66 @@
 @extends('layouts.app')
 
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f6f8;
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 960px;
+        margin: auto;
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    .cliente-foto {
+        width: 220px;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 12px;
+        border: 3px solid #ccc;
+        margin-bottom: 20px;
+    }
+
+    .info-label {
+        font-weight: bold;
+        margin-top: 10px;
+        display: block;
+        color: #555;
+    }
+
+    .btn-back {
+        margin-top: 20px;
+        display: inline-block;
+        padding: 10px 16px;
+        background-color: #0d6efd;
+        color: white;
+        border-radius: 8px;
+        text-decoration: none;
+    }
+
+    .btn-back:hover {
+        background-color: #0b5ed7;
+    }
+</style>
+
 @section('content')
-<div class="container mx-auto px-4 py-6">
-    <h2 class="text-2xl font-bold mb-4">Detalhes do Cliente</h2>
+<div class="container text-center">
+    <h2>Detalhes do Cliente</h2>
 
-    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <div class="mb-4">
-            <strong class="text-gray-700">Nome:</strong>
-            <p class="text-gray-900">{{ $cliente->nome }}</p>
-        </div>
+    @if($cliente->foto)
+        <img src="{{ $cliente->foto_url }}" alt="Foto de {{ $cliente->nome }}" class="cliente-foto">
+    @else
+        <p class="text-muted">Sem foto</p>
+    @endif
 
-        <div class="mb-4">
-            <strong class="text-gray-700">E-mail:</strong>
-            <p class="text-gray-900">{{ $cliente->email }}</p>
-        </div>
+    <p><span class="info-label">Nome:</span> {{ $cliente->nome }}</p>
+    <p><span class="info-label">Email:</span> {{ $cliente->email }}</p>
+    <p><span class="info-label">Telefone:</span> {{ $cliente->telefone }}</p>
 
-        <div class="mb-4">
-            <strong class="text-gray-700">Telefone:</strong>
-            <p class="text-gray-900">{{ $cliente->telefone }}</p>
-        </div>
-
-        @if ($cliente->foto)
-            <div class="mb-4">
-                <strong class="text-gray-700">Foto:</strong>
-                <img src="{{ asset('storage/' . $cliente->foto) }}" alt="Foto de {{ $cliente->nome }}" class="w-32 h-32 object-cover rounded-full mt-2">
-            </div>
-        @endif
-
-        <div class="flex items-center justify-start mt-6">
-            <a href="{{ route('clientes.edit', $cliente->id) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded mr-2">
-                Editar
-            </a>
-            <a href="{{ route('clientes.index') }}" class="text-gray-500 hover:underline">Voltar para a lista</a>
-        </div>
-    </div>
+    <a href="{{ route('clientes.index') }}" class="btn-back">← Voltar para a Lista</a>
 </div>
 @endsection
